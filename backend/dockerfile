@@ -1,0 +1,26 @@
+# Use the official Node.js image as the base image
+FROM node:18-alpine
+
+# Set the working directory inside the container
+WORKDIR /app
+
+# Copy package.json and package-lock.json to install dependencies
+COPY package*.json ./
+
+# Install dependencies (including devDependencies)
+RUN npm install
+
+# Copy the rest of the application code into the container
+COPY . .
+
+# Expose the port on which the app runs (replace with your app's port)
+EXPOSE 3000
+
+# Set the environment variable for development
+ENV NODE_ENV=development
+
+# Install nodemon globally to enable hot-reloading in dev mode
+RUN npm install -g nodemon
+
+# Run the Node.js application in development mode using nodemon
+CMD ["npm", "run", "dev"]
